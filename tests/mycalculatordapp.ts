@@ -22,4 +22,45 @@ describe('mycalculatordapp', () => {
     const account = await program.account.calculator.fetch(calculator.publicKey)
     assert.ok(account.greeting === "Welcome to Solana")
   })
+
+  it('Adds two numbers', async () => {
+    await program.rpc.add(new anchor.BN(2), new anchor.BN(3), {
+      accounts: {
+        calculator: calculator.publicKey,
+      }
+    })
+    const account = await program.account.calculator.fetch(calculator.publicKey)
+    assert.ok(account.results.eq(new anchor.BN(5)))
+  })
+
+  it('Subtract two numbers', async () => {
+    await program.rpc.add(new anchor.BN(2), new anchor.BN(3), {
+      accounts: {
+        calculator: calculator.publicKey,
+      }
+    })
+    const account = await program.account.calculator.fetch(calculator.publicKey)
+    assert.ok(account.results.eq(new anchor.BN(-1)))
+  })
+
+  it('Multiply two numbers', async () => {
+    await program.rpc.add(new anchor.BN(2), new anchor.BN(3), {
+      accounts: {
+        calculator: calculator.publicKey,
+      }
+    })
+    const account = await program.account.calculator.fetch(calculator.publicKey)
+    assert.ok(account.results.eq(new anchor.BN(6)))
+  })
+
+  it('Divide two numbers', async () => {
+    await program.rpc.add(new anchor.BN(4), new anchor.BN(3), {
+      accounts: {
+        calculator: calculator.publicKey,
+      }
+    })
+    const account = await program.account.calculator.fetch(calculator.publicKey)
+    assert.ok(account.results.eq(new anchor.BN(1)))
+    assert.ok(account.reminder.eq(new anchor.BN(1)))
+  })
 })
